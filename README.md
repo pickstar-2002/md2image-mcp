@@ -82,6 +82,7 @@ md2image-mcp convert "很长的文本..." --split-mode auto --max-length 800
 - `maxLength` (可选): 在 `auto` 模式下，每张图片的最大字符数。默认为 800。
 - `outputPath` (可选): 图片输出目录的路径。如果未提供，将使用默认的 "output" 目录。
 - `cwd` (可选): 用于解析相对路径的当前工作目录。
+- `themeOverrides` (可选): 一个包含自定义颜色值的对象，用于覆盖所选主题的样式或创建新主题。
 
 ### list_themes
 

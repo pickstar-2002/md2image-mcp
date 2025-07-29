@@ -78,6 +78,26 @@ class Md2ImageMCPServer {
                 cwd: {
                   type: 'string',
                   description: '用于解析相对路径的当前工作目录。如果未提供，将使用进程的当前工作目录。'
+                },
+                themeOverrides: {
+                  type: 'object',
+                  description: '一个包含自定义颜色值的对象，用于覆盖所选主题的样式或创建新主题。',
+                  properties: {
+                    background: { type: 'string' },
+                    cardBackground: { type: 'string' },
+                    textColor: { type: 'string' },
+                    headingColor: { type: 'string' },
+                    mutedColor: { type: 'string' },
+                    accentColor: { type: 'string' },
+                    linkColor: { type: 'string' },
+                    codeBackground: { type: 'string' },
+                    codeColor: { type: 'string' },
+                    borderColor: { type: 'string' },
+                    tableHeaderBackground: { type: 'string' },
+                    shadow: { type: 'string' },
+                    border: { type: 'string' },
+                    css: { type: 'string' }
+                  }
                 }
               },
               required: ['markdown']
@@ -171,7 +191,8 @@ class Md2ImageMCPServer {
       splitMode = 'none',
       maxLength = 800,
       outputPath,
-      cwd
+      cwd,
+      themeOverrides
     } = args;
 
     const results = await this.converter.convert({
@@ -183,7 +204,8 @@ class Md2ImageMCPServer {
       splitMode,
       maxLength,
       outputPath,
-      cwd
+      cwd,
+      themeOverrides
     });
 
     return {

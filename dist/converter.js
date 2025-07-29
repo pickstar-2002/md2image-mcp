@@ -22,6 +22,7 @@ export class MarkdownToImageConverter {
         const results = [];
         for (let i = 0; i < contents.length; i++) {
             const content = contents[i];
+            // 将 themeOverrides 传递给 convertSingle
             const result = await this.convertSingle(content, options, i, outputDir);
             results.push(result);
         }
@@ -60,10 +61,11 @@ export class MarkdownToImageConverter {
         return chunks.length > 0 ? chunks : [text];
     }
     async convertSingle(markdown, options, index, outputDir) {
-        const theme = this.themeManager.getTheme(options.theme);
+        // 在获取主题时传入 themeOverrides
+        const theme = this.themeManager.getTheme(options.theme, options.themeOverrides);
         const html = this.generateHTML(markdown, theme);
         const timestamp = Date.now();
-        const filename = `card_${timestamp}_${index + 1}.${options.format}`;
+        const filename = `card_${options.theme}_${timestamp}_${index + 1}.${options.format}`;
         const outputPath = join(outputDir, filename);
         if (options.format === 'png') {
             await this.generatePNG(html, outputPath, options.width, options.height);

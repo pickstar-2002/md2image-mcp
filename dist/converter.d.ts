@@ -1,3 +1,4 @@
+import { Theme } from './themes.js';
 export interface ConvertOptions {
     markdown: string;
     theme: string;
@@ -8,6 +9,7 @@ export interface ConvertOptions {
     maxLength: number;
     outputPath?: string;
     cwd?: string;
+    themeOverrides?: Partial<Theme>;
 }
 export interface ConvertResult {
     path: string;

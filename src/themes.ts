@@ -159,13 +159,27 @@ export class ThemeManager {
     });
   }
 
-  getTheme(name: string): Theme {
-    const theme = this.themes.get(name);
-    if (!theme) {
-      console.warn(`主题 "${name}" 不存在，使用默认主题`);
-      return this.themes.get('default')!;
+  getTheme(name: string, overrides?: Partial<Theme>): Theme {
+    // 1. 获取基础主题。如果 'name' 无效，则使用 'default' 主题。
+    const baseTheme = this.themes.get(name) || this.themes.get('default')!;
+
+    // 2. 如果没有覆盖项，直接返回基础主题的副本
+    if (!overrides || Object.keys(overrides).length === 0) {
+      // 如果请求的主题不存在，发出警告
+      if (!this.themes.has(name)) {
+        console.warn(`主题 "${name}" 不存在，使用默认主题`);
+      }
+      return { ...baseTheme };
     }
-    return theme;
+
+    // 3. 合并基础主题和覆盖项
+    const finalTheme = { ...baseTheme, ...overrides };
+    
+    return finalTheme;
+  }
+
+  getThemeKeys(): string[] {
+    return Array.from(this.themes.keys());
   }
 
   getAvailableThemes(): Array<{name: string, description: string}> {

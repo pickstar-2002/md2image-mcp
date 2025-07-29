@@ -20,7 +20,8 @@ export declare class ThemeManager {
     private themes;
     constructor();
     private initializeThemes;
-    getTheme(name: string): Theme;
+    getTheme(name: string, overrides?: Partial<Theme>): Theme;
+    getThemeKeys(): string[];
     getAvailableThemes(): Array<{
         name: string;
         description: string;

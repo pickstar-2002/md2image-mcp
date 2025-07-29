@@ -16,6 +16,7 @@ export interface ConvertOptions {
   maxLength: number;
   outputPath?: string;
   cwd?: string;
+  themeOverrides?: Partial<Theme>;
 }
 
 export interface ConvertResult {
@@ -47,6 +48,7 @@ export class MarkdownToImageConverter {
     
     for (let i = 0; i < contents.length; i++) {
       const content = contents[i];
+      // 将 themeOverrides 传递给 convertSingle
       const result = await this.convertSingle(content, options, i, outputDir);
       results.push(result);
     }
@@ -96,11 +98,12 @@ export class MarkdownToImageConverter {
     index: number,
     outputDir: string
   ): Promise<ConvertResult> {
-    const theme = this.themeManager.getTheme(options.theme);
+    // 在获取主题时传入 themeOverrides
+    const theme = this.themeManager.getTheme(options.theme, options.themeOverrides);
     const html = this.generateHTML(markdown, theme);
     
     const timestamp = Date.now();
-    const filename = `card_${timestamp}_${index + 1}.${options.format}`;
+    const filename = `card_${options.theme}_${timestamp}_${index + 1}.${options.format}`;
     const outputPath = join(outputDir, filename);
 
     if (options.format === 'png') {
